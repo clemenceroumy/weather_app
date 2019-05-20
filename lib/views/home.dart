@@ -9,6 +9,31 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  /** Generate the 6 columns for the week prevision*/
+  List<Expanded> generateColumn() {
+    List<Expanded> listColumn = new List<Expanded>();
+
+    for (var i = 1; i < 7; i++) {
+      listColumn.add(Expanded(
+        child: Container(
+          child: Column(
+            children: <Widget>[
+              Icon(
+                Icons.cloud,
+                color: Colors.white,
+              ),
+              Text(
+                '10°',
+                style: TextStyle(color: Colors.white),
+              )
+            ],
+          ),
+        ),
+      ));
+    }
+    return listColumn;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,15 +44,14 @@ class _HomeState extends State<Home> {
               children: <Widget>[
                 //Big screen row
                 Container(
-                  height: 500,
+                  height: 450,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       //ROW BUTTONS
                       Container(
-                        color: Colors.black12,
-                        padding: EdgeInsets.fromLTRB(0, 20, 20, 0),
+                        padding: EdgeInsets.fromLTRB(0, 20, 30, 0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
@@ -41,8 +65,7 @@ class _HomeState extends State<Home> {
 
                       //ROW CITY/HOURS
                       Container(
-                        color: Colors.black12,
-                        margin: EdgeInsets.only(top: 20.0),
+                        margin: EdgeInsets.only(top: 50.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: <Widget>[
@@ -70,8 +93,7 @@ class _HomeState extends State<Home> {
 
                       //ROW DEGREE
                       Container(
-                        color: Colors.black12,
-                        margin: EdgeInsets.only(top: 20.0),
+                        margin: EdgeInsets.only(top: 30.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: <Widget>[
@@ -84,8 +106,7 @@ class _HomeState extends State<Home> {
 
                       //ROW WEATHER STATUS
                       Container(
-                        color: Colors.black12,
-                        margin: EdgeInsets.only(top: 20.0),
+                        margin: EdgeInsets.only(top: 30.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: <Widget>[
@@ -96,30 +117,12 @@ class _HomeState extends State<Home> {
                         ),
                       ),
 
-                      //ROW ALL DAY
+                      //ROW WEEK PREVISIONS
                       Container(
-                        color: Colors.black12,
-                        margin: EdgeInsets.only(top: 20.0),
+                        margin: EdgeInsets.only(top: 50.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Expanded(
-                              child: Container(
-                                color: Colors.white24,
-                                child: Column(
-                                  children: <Widget>[Text('1')],
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Container(
-                                color: Colors.white24,
-                                child: Column(
-                                  children: <Widget>[Text('2')],
-                                ),
-                              ),
-                            )
-                          ],
+                          children: this.generateColumn(),
                         ),
                       )
                     ],
