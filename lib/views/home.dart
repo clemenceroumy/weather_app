@@ -9,11 +9,11 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  /** Generate the 6 columns for the week prevision*/
+  /** Generate 5 columns for the hours prevision*/
   List<Expanded> generateColumn() {
     List<Expanded> listColumn = new List<Expanded>();
 
-    for (var i = 1; i < 7; i++) {
+    for (var i = 1; i < 6; i++) {
       listColumn.add(Expanded(
         child: Container(
           child: Column(
@@ -23,7 +23,7 @@ class _HomeState extends State<Home> {
                 color: Colors.white,
               ),
               Text(
-                '10°',
+                '10:00',
                 style: TextStyle(color: Colors.white),
               )
             ],
@@ -117,7 +117,7 @@ class _HomeState extends State<Home> {
                         ),
                       ),
 
-                      //ROW WEEK PREVISIONS
+                      //ROW HOURS PREVISIONS
                       Container(
                         margin: EdgeInsets.only(top: 50.0),
                         child: Row(
