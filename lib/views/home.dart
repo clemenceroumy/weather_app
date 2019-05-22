@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:geolocator/geolocator.dart';
 
-import "utils/colors.dart";
+import "../utils/colors.dart";
 
 class Home extends StatefulWidget {
   @override
@@ -9,7 +10,33 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  /** Generate 5 columns for the hours prevision*/
+  Geolocator geolocator = Geolocator();
+
+  @override
+  initState() {
+    super.initState();
+    this.getPosition();
+  }
+
+  ///Get the location of the user
+  Future<String> getPosition() async {
+    String location;
+
+    try {
+      Position position = await geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+      List<Placemark> placemark = await geolocator.placemarkFromCoordinates(
+          position.latitude, position.longitude);
+
+      location = placemark[0].locality;
+    } catch (e) {
+      location = null;
+    }
+    print(location);
+    return location;
+  }
+
+  ///Generate 5 columns for the hours prevision
   List<Expanded> generateColumn() {
     List<Expanded> listColumn = new List<Expanded>();
 
