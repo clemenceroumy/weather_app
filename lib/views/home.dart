@@ -10,11 +10,18 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  String city;
+  double temperature;
+
   @override
   initState() {
     super.initState();
-    Location.getPosition().then((value) {
-      print(value);
+
+    Location.getWeather().then((value) {
+      setState(() {
+        city = value['name'];
+        temperature = value['main']['temp'];
+      });
     });
   }
 
@@ -86,7 +93,10 @@ class _HomeState extends State<Home> {
                                       Icons.place,
                                       color: Colors.white,
                                     ),
-                                    Text("LE LUDE",
+                                    Text(
+                                        this.city != null
+                                            ? this.city
+                                            : "Indisponible",
                                         style: TextStyle(
                                             color: Colors.white, fontSize: 30)),
                                   ],
@@ -106,7 +116,7 @@ class _HomeState extends State<Home> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: <Widget>[
-                            Text('-1°C',
+                            Text(this.temperature.toString() + "°C",
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 60))
                           ],
