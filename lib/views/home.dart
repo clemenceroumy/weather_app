@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 
 import "../services/Location.dart";
 import "../utils/colors.dart";
@@ -12,15 +13,20 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   String city;
   double temperature;
+  String date = DateFormat("EEEE,H:m").format(DateTime.now());
 
   @override
   initState() {
     super.initState();
+    getWeather();
+  }
 
-    Location.getWeather().then((value) {
+  Future<void> getWeather() {
+    return Location.getWeather().then((value) {
       setState(() {
         city = value['name'];
         temperature = value['main']['temp'];
+        date = DateFormat("EEEE,H:m").format(DateTime.now());
       });
     });
   }
@@ -56,11 +62,14 @@ class _HomeState extends State<Home> {
       body: Container(
           decoration: Palette.gradient,
           child: SafeArea(
-            child: Column(
+              child: RefreshIndicator(
+            onRefresh: getWeather,
+            child: ListView(
+              physics: const AlwaysScrollableScrollPhysics(),
               children: <Widget>[
                 //Big screen row
                 Container(
-                  height: 450,
+                  height: 500,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -101,7 +110,7 @@ class _HomeState extends State<Home> {
                                             color: Colors.white, fontSize: 30)),
                                   ],
                                 ),
-                                Text("Samedi, 17:24",
+                                Text(this.date,
                                     style: TextStyle(
                                         color: Colors.white70, fontSize: 20))
                               ],
@@ -150,13 +159,14 @@ class _HomeState extends State<Home> {
 
                 //Bottom screen
                 Container(
+                    height: 300,
                     color: Colors.white,
                     child: Row(
                       children: <Widget>[Text("yo!")],
                     ))
               ],
             ),
-          )),
+          ))),
     );
   }
 }
