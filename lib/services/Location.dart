@@ -40,4 +40,22 @@ class Location {
       return "something went wrong";
     }
   }
+
+  static Future getWeatherHourly() async {
+    var location = await getPosition();
+    location = jsonDecode(location);
+    var response = await http.get(
+        'http://api.openweathermap.org/data/2.5/forecast?lat=' +
+            location["lat"] +
+            '&lon=' +
+            location['long'] +
+            '&units=metric' +
+            '&appid=' +
+            ApiKey.weatherApi);
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      return "something went wrong";
+    }
+  }
 }

@@ -14,6 +14,8 @@ class _HomeState extends State<Home> {
   String city;
   double temperature;
   String date = DateFormat("EEEE,H:m").format(DateTime.now());
+  String weatherStatus;
+  List dataPrevisionHourly;
 
   @override
   initState() {
@@ -22,11 +24,18 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> getWeather() {
-    return Location.getWeather().then((value) {
+    Location.getWeather().then((value) {
       setState(() {
         city = value['name'];
         temperature = value['main']['temp'];
+        weatherStatus = value['weather'][0]['main'];
         date = DateFormat("EEEE,H:m").format(DateTime.now());
+      });
+    });
+
+    Location.getWeatherHourly().then((value) {
+      setState(() {
+        dataPrevisionHourly = value["list"];
       });
     });
   }
@@ -45,9 +54,17 @@ class _HomeState extends State<Home> {
                 color: Colors.white,
               ),
               Text(
-                '10:00',
+                dataPrevisionHourly[i]["dt_txt"]
+                    ? dataPrevisionHourly[i]["dt_txt"]
+                            .toString()
+                            .split(" ")[1]
+                            .split(":")[0] +
+                        "H00"
+                    : "null",
                 style: TextStyle(color: Colors.white),
-              )
+              ),
+              Text(dataPrevisionHourly[i]["main"]['temp'].toString() + "°C",
+                  style: TextStyle(color: Colors.white))
             ],
           ),
         ),
@@ -136,9 +153,9 @@ class _HomeState extends State<Home> {
                       Container(
                         margin: EdgeInsets.only(top: 30.0),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
-                            Text('Cloudy',
+                            Text(this.weatherStatus.toString(),
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 18))
                           ],
