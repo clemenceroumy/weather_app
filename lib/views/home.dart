@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 
 import "../services/Location.dart";
 import "../utils/colors.dart";
+import "../services/Icon.dart";
 
 class Home extends StatefulWidget {
   @override
@@ -15,16 +16,17 @@ class _HomeState extends State<Home> {
   double temperature;
   String date = DateFormat("EEEE,H:m").format(DateTime.now());
   String weatherStatus;
-  List dataPrevisionHourly;
+  List dataPrevisionHourly = [];
 
   @override
   initState() {
     super.initState();
     getWeather();
+    getWeatherHourly();
   }
 
   Future<void> getWeather() {
-    Location.getWeather().then((value) {
+    return Location.getWeather().then((value) {
       setState(() {
         city = value['name'];
         temperature = value['main']['temp'];
@@ -32,8 +34,10 @@ class _HomeState extends State<Home> {
         date = DateFormat("EEEE,H:m").format(DateTime.now());
       });
     });
+  }
 
-    Location.getWeatherHourly().then((value) {
+  Future<void> getWeatherHourly() {
+    return Location.getWeatherHourly().then((value) {
       setState(() {
         dataPrevisionHourly = value["list"];
       });
@@ -49,12 +53,11 @@ class _HomeState extends State<Home> {
         child: Container(
           child: Column(
             children: <Widget>[
-              Icon(
-                Icons.cloud,
-                color: Colors.white,
-              ),
+              dataPrevisionHourly.length != 0
+                  ? WeatherIcon(dataPrevisionHourly[i]["weather"][0]['id'])
+                  : null,
               Text(
-                dataPrevisionHourly[i]["dt_txt"]
+                dataPrevisionHourly.length != 0
                     ? dataPrevisionHourly[i]["dt_txt"]
                             .toString()
                             .split(" ")[1]
@@ -63,7 +66,10 @@ class _HomeState extends State<Home> {
                     : "null",
                 style: TextStyle(color: Colors.white),
               ),
-              Text(dataPrevisionHourly[i]["main"]['temp'].toString() + "°C",
+              Text(
+                  dataPrevisionHourly.length != 0
+                      ? dataPrevisionHourly[i]["main"]['temp'].toString() + "°C"
+                      : "null",
                   style: TextStyle(color: Colors.white))
             ],
           ),
