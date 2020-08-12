@@ -3,6 +3,8 @@
 Weather app is the first app I built with Flutter. Working on this app helped me to discover and understand how Flutter works.
 Inspired by [Licheff's design](https://www.uplabs.com/posts/the-weather-mate)
 
+![](inapp_screen.png)
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
