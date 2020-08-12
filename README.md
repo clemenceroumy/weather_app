@@ -1,6 +1,6 @@
 # weather_app
 
-Weather App build with Flutter.
+Weather app is the first app I built with Flutter. Working on this app helped me to discover and understand how Flutter works.
 Inspired by [Licheff's design](https://www.uplabs.com/posts/the-weather-mate)
 
 ## Getting Started
